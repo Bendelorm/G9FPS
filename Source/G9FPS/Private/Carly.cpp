@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputAction.h"
 #include "Camera/CameraComponent.h"
+#include "Door_Actor.h"
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
@@ -62,6 +63,32 @@ void ACarly::Look(const FInputActionValue& Value)
 	}
 }
 
+//Interaction
+void ACarly::Interact()
+{
+	if (FPVCameraComponent == nullptr) return;
+
+	FHitResult HitResult;
+	FVector Start = FPVCameraComponent->GetComponentLocation();
+	FVector End = Start + FPVCameraComponent->GetForwardVector() * InteractLineTraceLength;
+	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_Visibility);
+
+	//HelpFul DeDug    Remember to #include "DrawDebugHelpers.h"
+	
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 2.f);
+	//DrawDebugPoint(GetWorld(), End, 20.f, FColor::Red, false, 2.f);
+	//DrawDebugPoint(GetWorld(), Start, 20.f, FColor::Red, false, 2.f);
+	
+	ADoor_Actor* Door = Cast<ADoor_Actor> (HitResult.GetActor());
+	if (Door) 
+	{
+		Door->OnInteract();
+
+	}
+
+
+}
+
 // Called every frame
 void ACarly::Tick(float DeltaTime)
 {
@@ -81,6 +108,8 @@ void ACarly::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ACarly::Interact);
 	}
 }
 
