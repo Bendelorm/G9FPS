@@ -89,6 +89,27 @@ void ACarly::Interact()
 
 }
 
+//Weapon System
+void ACarly::SetHasWeapon(bool bHasNewWeapon)
+{
+	bHasWeapon = bHasNewWeapon;
+}
+
+bool ACarly::GetHasWeapon()
+{
+	return bHasWeapon;
+}
+
+USkeletalMeshComponent* ACarly::GetSKFPV() const
+{
+	return SKFPV;
+}
+
+UCameraComponent* ACarly::GetFPVCameraComponent() const
+{
+	return FPVCameraComponent;
+}
+
 // Called every frame
 void ACarly::Tick(float DeltaTime)
 {
