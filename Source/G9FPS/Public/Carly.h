@@ -50,15 +50,36 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	UInputAction* LookAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UInputAction* InteractAction;
+
+
 	void Move(const FInputActionValue& Value);
 
 	void Look(const FInputActionValue& Value);
+
+	void Interact();
+
+	UPROPERTY(EditAnywhere)
+	float InteractLineTraceLength = 350.f;
+
+	//Weapon System
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	bool bHasWeapon = false;
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void SetHasWeapon(bool bHasNewWeapon);
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	bool GetHasWeapon();
+
+	USkeletalMeshComponent* GetSKFPV() const;
+
+	UCameraComponent* GetFPVCameraComponent() const;
 
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
 
 };
