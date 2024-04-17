@@ -4,9 +4,11 @@
 #include "Carly.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "FPS_Interact.h"
 #include "InputAction.h"
 #include "Camera/CameraComponent.h"
 #include "Door_Actor.h"
+#include "DrawDebugHelpers.h"
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
@@ -64,27 +66,31 @@ void ACarly::Look(const FInputActionValue& Value)
 }
 
 //Interaction
-void ACarly::Interact()
+void ACarly::InteractWithObject()
 {
 	if (FPVCameraComponent == nullptr) return;
 
 	FHitResult HitResult;
 	FVector Start = FPVCameraComponent->GetComponentLocation();
 	FVector End = Start + FPVCameraComponent->GetForwardVector() * InteractLineTraceLength;
-	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_Visibility);
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(this);
+
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitResult.GetActor()->GetName());
+		if (HitResult.GetActor()->Implements<UFPS_Interact>())
+		{
+			IFPS_Interact::Execute_Interact(HitResult.GetActor());
+		}
+	}
 
 	//HelpFul DeDug    Remember to #include "DrawDebugHelpers.h"
 	
-	//DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 2.f);
-	//DrawDebugPoint(GetWorld(), End, 20.f, FColor::Red, false, 2.f);
-	//DrawDebugPoint(GetWorld(), Start, 20.f, FColor::Red, false, 2.f);
+	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 2.f);
+	DrawDebugPoint(GetWorld(), End, 20.f, FColor::Red, false, 2.f);
+	DrawDebugPoint(GetWorld(), Start, 20.f, FColor::Red, false, 2.f);
 	
-	ADoor_Actor* Door = Cast<ADoor_Actor> (HitResult.GetActor());
-	if (Door) 
-	{
-		Door->OnInteract();
-
-	}
 
 
 }
@@ -130,7 +136,7 @@ void ACarly::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
-		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ACarly::Interact);
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ACarly::InteractWithObject);
 	}
 }
 

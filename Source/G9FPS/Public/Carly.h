@@ -58,7 +58,8 @@ public:
 
 	void Look(const FInputActionValue& Value);
 
-	void Interact();
+	UFUNCTION(BlueprintCallable, Category = "Interact")
+	void InteractWithObject();
 
 	UPROPERTY(EditAnywhere)
 	float InteractLineTraceLength = 350.f;

@@ -3,6 +3,8 @@
 
 #include "Door_Actor.h"
 
+#include "EngineUtils.h"
+
 // Sets default values
 ADoor_Actor::ADoor_Actor()
 {
@@ -31,7 +33,7 @@ void ADoor_Actor::Tick(float DeltaTime)
 
 }
 
-void ADoor_Actor::OnInteract()
+void ADoor_Actor::Interact_Implementation()
 {
 	UE_LOG(LogTemp, Display, TEXT("Interacted with Door"));
 
