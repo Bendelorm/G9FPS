@@ -33,4 +33,16 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
 	UStaticMeshComponent* Door;
 
+protected:
+	FTimeline Timeline;
+	UPROPERTY(EditAnywhere)
+	UCurveFloat* CurveFloat;
+
+	bool bIsDoorClosed = true;
+
+	UPROPERTY(EditAnywhere)
+	float DoorMoveDistance = 10.f;
+
+	UFUNCTION()
+	void OpenDoor(float Value);
 };
