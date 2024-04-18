@@ -6,21 +6,25 @@
 #include "GameFramework/Actor.h"
 #include "Components/TimelineComponent.h"
 #include "FPS_Interact.h"
-#include "Door_Actor.generated.h"
+#include "Key_Door_Actor.generated.h"
 
 UCLASS()
-class G9FPS_API ADoor_Actor : public AActor, public IFPS_Interact
+class G9FPS_API AKey_Door_Actor : public AActor, public IFPS_Interact
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ADoor_Actor();
+	AKey_Door_Actor();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void Interact_Implementation() override;
+
+	virtual void Unlock_Implementation(float Value) override;
+
+
 
 private:
 
@@ -44,4 +48,12 @@ protected:
 
 	UFUNCTION()
 	void OpenDoor(float Value);
+
+	UPROPERTY(EditAnywhere)
+	bool Locked = true; 
+
+	UPROPERTY(EditAnywhere)
+	float DoorCode;
+
+
 };

@@ -24,4 +24,6 @@ class G9FPS_API IFPS_Interact
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void Interact();
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void Unlock(float Value);
 };
