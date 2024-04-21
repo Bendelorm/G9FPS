@@ -7,9 +7,10 @@
 #include "FPS_Interact.h"
 #include "InputAction.h"
 #include "Camera/CameraComponent.h"
-
 #include "DrawDebugHelpers.h"
 #include "Components/CapsuleComponent.h"
+#include "Camera/CameraActor.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ACarly::ACarly()
@@ -43,6 +44,7 @@ void ACarly::BeginPlay()
 
 }
 
+
 void ACarly::Move(const FInputActionValue& Value)
 {
 	FVector2D MovementVector = Value.Get<FVector2D>();
@@ -62,6 +64,23 @@ void ACarly::Look(const FInputActionValue& Value)
 	{
 		AddControllerYawInput(LookVector.X);
 		AddControllerPitchInput(LookVector.Y);
+	}
+}
+void ACarly::CameraSwitch(const FInputActionValue& Value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("trying to switch camera"));
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
+	if (PlayerController)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("In if"));
+		TArray<AActor*> FoundActors;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), Cameras, FoundActors);
+		for (int32 i = 0; i < FoundActors.Num(); ++i)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("in For"));
+			PlayerController->SetViewTarget(FoundActors[i]);
+		}
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("For skipped"));
 	}
 }
 
@@ -137,6 +156,9 @@ void ACarly::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ACarly::InteractWithObject);
+
+		EnhancedInputComponent->BindAction(CameraSwitchAction, ETriggerEvent::Triggered, this, &ACarly::CameraSwitch);
+
 	}
 }
 

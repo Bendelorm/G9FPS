@@ -53,11 +53,21 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	UInputAction* InteractAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
+	UInputAction* CameraSwitchAction;
+
+	void CameraSwitch(const FInputActionValue& Value);
 
 	void Move(const FInputActionValue& Value);
 
 	void Look(const FInputActionValue& Value);
 
+
+	//Camera System
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<ACameraActor> Cameras;
+
+	//Interact System
 	UFUNCTION(BlueprintCallable, Category = "Interact")
 	void InteractWithObject();
 
