@@ -41,7 +41,6 @@ void ACarly::BeginPlay()
 			Subsystem->AddMappingContext(IMC, 0);
 		}
 	}
-
 }
 
 
@@ -66,21 +65,35 @@ void ACarly::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookVector.Y);
 	}
 }
+
+//Global Variable for Camera Number
+int32 CameraNumber = 0;
+
 void ACarly::CameraSwitch(const FInputActionValue& Value)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("trying to switch camera"));
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 	if (PlayerController)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("In if"));
-		TArray<AActor*> FoundActors;
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), Cameras, FoundActors);
-		for (int32 i = 0; i < FoundActors.Num(); ++i)
+		TArray<AActor*> FoundCameras;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), Cameras, FoundCameras);
+		if (CameraNumber < FoundCameras.Num())
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("in For"));
-			PlayerController->SetViewTarget(FoundActors[i]);
+			PlayerController->SetViewTarget(FoundCameras[CameraNumber]);
+			CameraNumber++;
+			if (CameraNumber == FoundCameras.Num())
+			{
+				CameraNumber = 0;
+			}
 		}
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("For skipped"));
+	}
+}
+
+void ACarly::DefaultCamera(const FInputActionValue& Value)
+{
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
+	if (PlayerController)
+	{
+		PlayerController->SetViewTarget(this);
 	}
 }
 
@@ -158,7 +171,7 @@ void ACarly::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ACarly::InteractWithObject);
 
 		EnhancedInputComponent->BindAction(CameraSwitchAction, ETriggerEvent::Triggered, this, &ACarly::CameraSwitch);
+		EnhancedInputComponent->BindAction(DefaultCameraAction, ETriggerEvent::Triggered, this, &ACarly::DefaultCamera);
 
 	}
 }
-
