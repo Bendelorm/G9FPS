@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "EnhancedInputSubsystemInterface.h"
-#include "G9FPSCameraActor.h"
 #include "GameFramework/Character.h"
 #include "Carly.generated.h"
 
@@ -54,45 +53,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	UInputAction* InteractAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
-	UInputAction* CameraSwitchAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
-	UInputAction* DefaultCameraAction;
-
-	void CameraSwitch(const FInputActionValue& Value);
-
-	void DefaultCamera(const FInputActionValue& Value);
 
 	void Move(const FInputActionValue& Value);
 
 	void Look(const FInputActionValue& Value);
 
-
-	//Camera System
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<ACameraActor> Cameras;
-
-	//Interact System
-	UFUNCTION(BlueprintCallable, Category = "Interact")
-	void InteractWithObject();
+	void Interact();
 
 	UPROPERTY(EditAnywhere)
 	float InteractLineTraceLength = 350.f;
-
-	//Weapon System
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
-	bool bHasWeapon = false;
-
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void SetHasWeapon(bool bHasNewWeapon);
-
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	bool GetHasWeapon();
-
-	USkeletalMeshComponent* GetSKFPV() const;
-
-	UCameraComponent* GetFPVCameraComponent() const;
 
 
 protected:
