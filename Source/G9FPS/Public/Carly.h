@@ -73,6 +73,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<ACameraActor> Cameras;
 
+	//Variable for Camera Number
+	int32 CameraNumber = 0;
+
 	//Interact System
 	UFUNCTION(BlueprintCallable, Category = "Interact")
 	void InteractWithObject();

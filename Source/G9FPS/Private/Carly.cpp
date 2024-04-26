@@ -66,9 +66,6 @@ void ACarly::Look(const FInputActionValue& Value)
 	}
 }
 
-//Global Variable for Camera Number
-int32 CameraNumber = 0;
-
 void ACarly::CameraSwitch(const FInputActionValue& Value)
 {
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
