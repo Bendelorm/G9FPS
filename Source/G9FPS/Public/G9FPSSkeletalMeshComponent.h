@@ -47,7 +47,17 @@ public:
 
 	void Reload();
 
-	int32 AmmoCount = 6;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")
+	float AmmoCount = 6;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")
+	float MaxAmmo = 6;
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	float GetAmmoCount();
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	float GetMaxAmmo();
 
 	//Animation and sound for gun
 

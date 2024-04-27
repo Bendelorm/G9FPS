@@ -111,3 +111,13 @@ void UG9FPSSkeletalMeshComponent::Reload()
 		AmmoCount = 6;
 	}
 }
+
+float UG9FPSSkeletalMeshComponent::GetAmmoCount()
+{
+	return AmmoCount;
+}
+
+float UG9FPSSkeletalMeshComponent::GetMaxAmmo()
+{
+	return MaxAmmo;
+}
