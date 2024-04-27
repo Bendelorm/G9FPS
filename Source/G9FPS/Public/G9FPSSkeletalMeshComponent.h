@@ -39,9 +39,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	class UInputAction* FireAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	class UInputAction* ReloadAction;
+
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void Fire();
 
+	void Reload();
+
+	int32 AmmoCount = 6;
 
 	//Animation and sound for gun
 
@@ -50,6 +56,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation and Sound")
 	UAnimMontage* FireAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation and Sound")
+	UAnimMontage* ReloadAnimation;
 
 
 	//Projectile

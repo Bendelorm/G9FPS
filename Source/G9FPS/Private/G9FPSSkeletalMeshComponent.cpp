@@ -40,6 +40,8 @@ void UG9FPSSkeletalMeshComponent::AttachComponentToPlayer(ACarly* TargetCharacte
 		if(EnhancedInputComponent)
 		{
 			EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &UG9FPSSkeletalMeshComponent::Fire);
+			EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Triggered, this, &UG9FPSSkeletalMeshComponent::Reload);
+
 		}
 	}
 }
@@ -59,14 +61,19 @@ void UG9FPSSkeletalMeshComponent::Fire()
 		UWorld* World = GetWorld();
 		if(World != nullptr)
 		{
-			APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
-			FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
-			FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(GuntipOffset);
+			if (AmmoCount > 0)
+			{
+				APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
+				FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
+				FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(GuntipOffset);
 
-			FActorSpawnParameters ActorSpawnParams;
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+				FActorSpawnParameters ActorSpawnParams;
+				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
-			World->SpawnActor<AActor>(ProjectileToSpawn, SpawnLocation, SpawnRotation, ActorSpawnParams);
+				World->SpawnActor<AActor>(ProjectileToSpawn, SpawnLocation, SpawnRotation, ActorSpawnParams);
+
+				AmmoCount--;
+			}
 		}
 	}
 
@@ -86,5 +93,21 @@ void UG9FPSSkeletalMeshComponent::Fire()
 		}
 
 		GetAnimInstance()->Montage_Play(FireAnimation, 1.f);
+	}
+}
+
+
+//Function for reloading and playing reload animation
+void UG9FPSSkeletalMeshComponent::Reload()
+{
+	if (ProjectileToSpawn != nullptr)
+	{
+		UAnimInstance* AnimInstance = Character->GetSKFPV()->GetAnimInstance();
+		if (AnimInstance != nullptr)
+		{
+			AnimInstance->Montage_Play(ReloadAnimation, 1.f);
+		}
+		GetAnimInstance()->Montage_Play(ReloadAnimation, 1.f);
+		AmmoCount = 6;
 	}
 }
