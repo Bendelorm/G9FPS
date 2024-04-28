@@ -7,9 +7,9 @@
 #include "FPS_Interact.h"
 #include "InputAction.h"
 #include "Camera/CameraComponent.h"
+#include "Camera/CameraActor.h"
 #include "DrawDebugHelpers.h"
 #include "Components/CapsuleComponent.h"
-#include "Camera/CameraActor.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -32,6 +32,9 @@ ACarly::ACarly()
 void ACarly::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//Setting mesh to be visible
+	bIsSecondaryCameraActive = false;
 
 	//Adding Input Mapping System
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -71,6 +74,8 @@ void ACarly::CameraSwitch(const FInputActionValue& Value)
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 	if (PlayerController)
 	{
+		bIsSecondaryCameraActive = true;
+		HidePlayer();
 		TArray<AActor*> FoundCameras;
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), Cameras, FoundCameras);
 		if (CameraNumber < FoundCameras.Num())
@@ -90,7 +95,18 @@ void ACarly::DefaultCamera(const FInputActionValue& Value)
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 	if (PlayerController)
 	{
+		bIsSecondaryCameraActive = false;
+		HidePlayer();
 		PlayerController->SetViewTarget(this);
+	}
+}
+
+void ACarly::HidePlayer()
+{
+	SetActorHiddenInGame(bIsSecondaryCameraActive);
+	if (GetHasWeapon())
+	{
+		SetActorHiddenInGame(bIsSecondaryCameraActive);
 	}
 }
 
