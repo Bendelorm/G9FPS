@@ -76,6 +76,13 @@ public:
 	//Variable for Camera Number
 	int32 CameraNumber = 0;
 
+	//Bool to hide player from cameras
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bIsSecondaryCameraActive;
+
+	//Function for hiding/showing player
+	void HidePlayer();
+
 	//Interact System
 	UFUNCTION(BlueprintCallable, Category = "Interact")
 	void InteractWithObject();

@@ -39,9 +39,25 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	class UInputAction* FireAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	class UInputAction* ReloadAction;
+
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void Fire();
 
+	void Reload();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")
+	float AmmoCount = 6;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")
+	float MaxAmmo = 6;
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	float GetAmmoCount();
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	float GetMaxAmmo();
 
 	//Animation and sound for gun
 
@@ -50,6 +66,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation and Sound")
 	UAnimMontage* FireAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation and Sound")
+	UAnimMontage* ReloadAnimation;
 
 
 	//Projectile

@@ -13,5 +13,4 @@ UCLASS()
 class G9FPS_API AG9FPSCameraActor : public ACameraActor
 {
 	GENERATED_BODY()
-	
 };
