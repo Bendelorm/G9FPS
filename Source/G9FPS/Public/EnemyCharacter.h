@@ -29,7 +29,7 @@ public:
 
 
 	UPROPERTY(EditAnywhere)
-	float Health = 2.f;
+	float Health = 100.f;
 
 	virtual float TakeDamage
 	(

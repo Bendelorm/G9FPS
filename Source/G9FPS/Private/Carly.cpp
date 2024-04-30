@@ -161,6 +161,17 @@ UCameraComponent* ACarly::GetFPVCameraComponent() const
 	return FPVCameraComponent;
 }
 
+//Damage and HP
+float ACarly::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	Health -= DamageAmount;
+	if (Health <= 0)
+	{
+		Destroy();
+	}
+	return DamageAmount;
+}
+
 // Called every frame
 void ACarly::Tick(float DeltaTime)
 {

@@ -104,6 +104,19 @@ public:
 
 	UCameraComponent* GetFPVCameraComponent() const;
 
+	//Damage and HP
+
+	UPROPERTY(EditAnywhere)
+	float Health = 100.f;
+
+	virtual float TakeDamage
+	(
+		float DamageAmount,
+		struct FDamageEvent const& DamageEvent,
+		class AController* EventInstigator,
+		AActor* DamageCauser
+	)override;
+
 
 protected:
 	// Called when the game starts or when spawned
