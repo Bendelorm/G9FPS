@@ -107,7 +107,7 @@ public:
 	//Damage and HP
 
 	UPROPERTY(EditAnywhere)
-	float Health = 100.f;
+	float Health = 60.f;
 
 	virtual float TakeDamage
 	(
