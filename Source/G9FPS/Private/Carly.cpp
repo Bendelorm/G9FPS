@@ -104,10 +104,6 @@ void ACarly::DefaultCamera(const FInputActionValue& Value)
 void ACarly::HidePlayer()
 {
 	SetActorHiddenInGame(bIsSecondaryCameraActive);
-	if (GetHasWeapon())
-	{
-		SetActorHiddenInGame(bIsSecondaryCameraActive);
-	}
 }
 
 //Interaction
