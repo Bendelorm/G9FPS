@@ -106,7 +106,7 @@ public:
 
 	//Damage and HP
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float Health = 60.f;
 
 	virtual float TakeDamage
@@ -116,6 +116,15 @@ public:
 		class AController* EventInstigator,
 		AActor* DamageCauser
 	)override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float MaxHealth = 60.f;
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	float GetHealth();
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	float GetMaxHealth();
 
 
 protected:

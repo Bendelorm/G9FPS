@@ -28,6 +28,16 @@ ACarly::ACarly()
 	SKFPV->SetupAttachment(FPVCameraComponent);
 }
 
+float ACarly::GetHealth()
+{
+	return Health;
+}
+
+float ACarly::GetMaxHealth()
+{
+	return MaxHealth;
+}
+
 // Called when the game starts or when spawned
 void ACarly::BeginPlay()
 {
