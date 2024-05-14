@@ -93,6 +93,11 @@ void UG9FPSSkeletalMeshComponent::Reload()
 		if (World != nullptr && bIsReloading == false)
 		{
 			bIsReloading = true;
+			if (ReloadSound != nullptr)
+			{
+				//Reload sound
+				UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, Character->GetActorLocation());
+			}
 			FTimerHandle TimerHandle;
 			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]() //reload timer
 				{
