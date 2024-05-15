@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "GameFramework/Character.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/Character.h"
 #include "EnemyCharacter.generated.h"
 
 UCLASS( )
@@ -30,6 +32,12 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	float Health = 60.f;
+
+	UPROPERTY(EditAnywhere)
+	bool bIsDead = false;
+
+	UPROPERTY(EditAnywhere)
+	bool bIsRagDoll = false;
 
 	virtual float TakeDamage
 	(
