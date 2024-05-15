@@ -2,7 +2,6 @@
 
 
 #include "EnemyCharacter.h"
-#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()
@@ -39,40 +38,7 @@ float AEnemyCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damage
 	Health -= DamageAmount;
 	if (Health <= 0)
 	{
-		bIsDead = true;
-	}
-
-	if (bIsDead)
-	{
-		DetachFromControllerPendingDestroy();
-
-		// Disable all collision on capsule 
-		UCapsuleComponent* CapsuleComp = GetCapsuleComponent();
-		CapsuleComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		CapsuleComp->SetCollisionResponseToAllChannels(ECR_Ignore);
-
-		GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
-		SetActorEnableCollision(true);
-
-		if (!bIsRagDoll)
-		{
-			// RagDoll
-			GetMesh()->SetAllBodiesSimulatePhysics(true);
-			GetMesh()->SetSimulatePhysics(true);
-			GetMesh()->WakeAllRigidBodies();
-			GetMesh()->bBlendPhysics = true;
-
-			UCharacterMovementComponent* CharacterComp = Cast<UCharacterMovementComponent>(GetMovementComponent());
-			if (CharacterComp)
-			{
-				CharacterComp->StopMovementImmediately();
-				CharacterComp->DisableMovement();
-				CharacterComp->SetComponentTickEnabled(false);
-			}
-
-			SetLifeSpan(10.0f);
-			bIsRagDoll = true;
-		}
+		Destroy();
 	}
 	return DamageAmount;
 }
