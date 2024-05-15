@@ -30,7 +30,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "WeaponSettings")
 	FVector GuntipOffset;
 
-
 	// IMC and actions for gun
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
@@ -45,6 +44,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void Fire();
 
+	UFUNCTION(BlueprintCallable, Category = "Input")
 	void Reload();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")
@@ -59,18 +59,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	float GetMaxAmmo();
 
-	//Animation and sound for gun
+	//Check for if already reloading
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")
+	bool bIsReloading = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation and Sound")
+	//Sound for gun
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 	USoundBase* FireSound;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation and Sound")
-	UAnimMontage* FireAnimation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation and Sound")
-	UAnimMontage* ReloadAnimation;
-
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
+	USoundBase* ReloadSound;
 	//Projectile
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Projectile")
 	TSubclassOf<AActor> ProjectileToSpawn;

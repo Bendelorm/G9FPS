@@ -61,7 +61,7 @@ void UG9FPSSkeletalMeshComponent::Fire()
 		UWorld* World = GetWorld();
 		if(World != nullptr)
 		{
-			if (AmmoCount > 0)
+			if (AmmoCount > 0 && bIsReloading == false)
 			{
 				APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
 				FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
@@ -73,26 +73,13 @@ void UG9FPSSkeletalMeshComponent::Fire()
 				World->SpawnActor<AActor>(ProjectileToSpawn, SpawnLocation, SpawnRotation, ActorSpawnParams);
 
 				AmmoCount--;
+				if(FireSound != nullptr)
+				{
+					//Shooting sound
+					UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
+				}
 			}
 		}
-	}
-
-	//Sound to be played when shooting
-	if(FireSound != nullptr)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
-	}
-
-	//Animation to be played when shooting
-	if(FireAnimation != nullptr)
-	{
-		UAnimInstance* AnimInstance = Character->GetSKFPV()->GetAnimInstance();
-		if(AnimInstance != nullptr)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
-
-		GetAnimInstance()->Montage_Play(FireAnimation, 1.f);
 	}
 }
 
@@ -102,13 +89,22 @@ void UG9FPSSkeletalMeshComponent::Reload()
 {
 	if (ProjectileToSpawn != nullptr)
 	{
-		UAnimInstance* AnimInstance = Character->GetSKFPV()->GetAnimInstance();
-		if (AnimInstance != nullptr)
+		UWorld* World = GetWorld();
+		if (World != nullptr && bIsReloading == false)
 		{
-			AnimInstance->Montage_Play(ReloadAnimation, 1.f);
+			bIsReloading = true;
+			if (ReloadSound != nullptr)
+			{
+				//Reload sound
+				UGameplayStatics::PlaySoundAtLocation(this, ReloadSound, Character->GetActorLocation());
+			}
+			FTimerHandle TimerHandle;
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]() //reload timer
+				{
+					AmmoCount = 6;
+					bIsReloading = false;
+				}, 2.3, false);
 		}
-		GetAnimInstance()->Montage_Play(ReloadAnimation, 1.f);
-		AmmoCount = 6;
 	}
 }
 

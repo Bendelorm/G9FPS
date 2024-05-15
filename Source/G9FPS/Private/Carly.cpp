@@ -28,6 +28,16 @@ ACarly::ACarly()
 	SKFPV->SetupAttachment(FPVCameraComponent);
 }
 
+float ACarly::GetHealth()
+{
+	return Health;
+}
+
+float ACarly::GetMaxHealth()
+{
+	return MaxHealth;
+}
+
 // Called when the game starts or when spawned
 void ACarly::BeginPlay()
 {
@@ -104,10 +114,6 @@ void ACarly::DefaultCamera(const FInputActionValue& Value)
 void ACarly::HidePlayer()
 {
 	SetActorHiddenInGame(bIsSecondaryCameraActive);
-	if (GetHasWeapon())
-	{
-		SetActorHiddenInGame(bIsSecondaryCameraActive);
-	}
 }
 
 //Interaction
@@ -159,6 +165,17 @@ USkeletalMeshComponent* ACarly::GetSKFPV() const
 UCameraComponent* ACarly::GetFPVCameraComponent() const
 {
 	return FPVCameraComponent;
+}
+
+//Damage and HP
+float ACarly::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	Health -= DamageAmount;
+	if (Health <= 0)
+	{
+		Destroy();
+	}
+	return DamageAmount;
 }
 
 // Called every frame

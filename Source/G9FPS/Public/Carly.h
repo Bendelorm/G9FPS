@@ -104,6 +104,28 @@ public:
 
 	UCameraComponent* GetFPVCameraComponent() const;
 
+	//Damage and HP
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float Health = 60.f;
+
+	virtual float TakeDamage
+	(
+		float DamageAmount,
+		struct FDamageEvent const& DamageEvent,
+		class AController* EventInstigator,
+		AActor* DamageCauser
+	)override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	float MaxHealth = 60.f;
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	float GetHealth();
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	float GetMaxHealth();
+
 
 protected:
 	// Called when the game starts or when spawned
