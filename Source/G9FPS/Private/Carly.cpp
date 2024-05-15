@@ -135,15 +135,6 @@ void ACarly::InteractWithObject()
 			IFPS_Interact::Execute_Interact(HitResult.GetActor());
 		}
 	}
-
-	//HelpFul DeDug    Remember to #include "DrawDebugHelpers.h"
-	
-	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 2.f);
-	DrawDebugPoint(GetWorld(), End, 20.f, FColor::Red, false, 2.f);
-	DrawDebugPoint(GetWorld(), Start, 20.f, FColor::Red, false, 2.f);
-	
-
-
 }
 
 //Weapon System
