@@ -109,6 +109,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float Health = 60.f;
 
+	UFUNCTION(BlueprintCallable, Category = "Health")
 	virtual float TakeDamage
 	(
 		float DamageAmount,

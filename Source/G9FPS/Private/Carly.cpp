@@ -171,10 +171,6 @@ UCameraComponent* ACarly::GetFPVCameraComponent() const
 float ACarly::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	Health -= DamageAmount;
-	if (Health <= 0)
-	{
-		Destroy();
-	}
 	return DamageAmount;
 }
 
